@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useRef } from "react";
+import React, { Suspense, useState, useRef, useEffect } from "react";
 import { Canvas, useFrame, useLoader, extend } from "@react-three/fiber";
 import { OrbitControls, useTexture, Effects } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
@@ -10,34 +10,41 @@ extend({ GlitchPass });
 
 // All textures are CC0 textures from: https://cc0textures.com/
 const listOfTexture = [
-    "Wicker010A_2K_",
-    "Ground054_2K_",
-    "Moss002_2K_",
-    "Fabric062_2K_"
+    "Leather034C_1K_",
+    "PavingStones120_1K_",
+    "Rock035_1K_",
+    "Rock050_1K_",
+    "Wicker007B_1K_"
 ]
 
 export default function TexturedSphere(props) {
     const [count, setCount] = useState(0)
     const [makeGlitch, setMakeGlitch] = useState(false)
-    const name = (type) => `${listOfTexture[count]}${type}.jpg`
+    // const name = (type) => `${listOfTexture[count]}${type}.jpg`
+    const listOfTextureLoad = []
     const sphereRef = useRef()
+    const materialRef = useRef()
 
     const [hovered, hover] = useState(false)
     
-
+    for(let i=0 ; i < listOfTexture.length; i += 1) {
+        const name = (type) => `${listOfTexture[i]}${type}.jpg`
+        
+        listOfTextureLoad.push(useLoader(TextureLoader, [
+            name("Color"),
+            name("Displacement"),
+            name("Normal"),
+            name("Roughness"),
+            name("AmbientOcclusion")
+        ]))
+    }
     const [
         colorMap,
         displacementMap,
         normalMap,
         roughnessMap,
         aoMap
-    ] = useLoader(TextureLoader, [
-        name("Color"),
-        name("Displacement"),
-        name("Normal"),
-        name("Roughness"),
-        name("AmbientOcclusion")
-    ]);
+    ] = listOfTextureLoad[count]
 
     useFrame(() => {
         sphereRef.current.rotation.y += 0.01
@@ -48,11 +55,14 @@ export default function TexturedSphere(props) {
         const timer = setTimeout(() => {
             setMakeGlitch(makeGlitch => makeGlitch = false)
         }, 500)
+
+        materialRef.current.map.dispose();
         if (count === listOfTexture.length - 1) {
             setCount(count => count = 0)
         } else {
             setCount(count => count = count + 1)
         }
+        materialRef.current.needsUpdate = true;
     }
 
     const handePointerOver = (e) => {
@@ -94,6 +104,7 @@ export default function TexturedSphere(props) {
             normalMap={normalMap}
             roughnessMap={roughnessMap}
             aoMap={aoMap}
+            ref={materialRef}
             />
         </mesh>
     </>
