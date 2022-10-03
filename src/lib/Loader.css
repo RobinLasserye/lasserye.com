@@ -1,15 +1,12 @@
 body{
     background: #000000;
     align-content: center;
-    margin: 0;
+    align-items: center;
 }
 
 svg{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
+  transform-origin: center ;
+  position: flex;
   transition: 1s;
   transform: appear 1s ease;
 }
