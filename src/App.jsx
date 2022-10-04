@@ -13,14 +13,15 @@ export default function App() {
             dpr={window.devicePixelRatio}
             shadows gl={{ antialias: false }}
             style={{position: "absolute", width: "100vw", height: "100vh", margin: 0, right: "0", top: "0", bottom: "0", left: "0"}}
+            color={"#202030"}
             >
             <Suspense fallback={<Loader/>}>
 
               <MainScene canvasRef={canvas}/>
 
               <BakeShadows />
-              <OrthographicCamera makeDefault far={100} near={0.1} position={[-10, 2, -10]} zoom={100} />
-              <OrbitControls autoRotate enableZoom={false} />
+              <OrthographicCamera makeDefault far={10000} near={-20} position={[-10, 2, -10]} zoom={10} fov={35}/>
+              <OrbitControls />
             </Suspense>
         </Canvas>
     </>
