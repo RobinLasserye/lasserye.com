@@ -27,7 +27,8 @@ export default function TexturedSphere(props) {
 
     const [sphereRef] = useSphere(() => ({
         mass: 10,
-        position: position
+        position: position,
+        args: [2, 100, 100]
       }));
     // const sphereRef = useRef()
     const materialRef = useRef()
@@ -105,7 +106,7 @@ export default function TexturedSphere(props) {
         receiveShadow
         >
             {/* Width and height segments for displacementMap */}
-            <sphereGeometry args={[1, 100, 100]} />
+            <sphereGeometry args={[2, 100, 100]} />
             <meshStandardMaterial
             displacementScale={0.2}
             map={colorMap}
