@@ -3,6 +3,7 @@ import { Canvas, useFrame, useLoader, extend } from "@react-three/fiber";
 import { OrbitControls, useTexture, Effects } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass";
+import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
 import gsap from 'gsap'
 
 extend({ GlitchPass });
@@ -22,7 +23,13 @@ export default function TexturedSphere(props) {
     const [makeGlitch, setMakeGlitch] = useState(false)
     // const name = (type) => `${listOfTexture[count]}${type}.jpg`
     const listOfTextureLoad = []
-    const sphereRef = useRef()
+    const position = props.position ? props.position : [0, 5, 0] 
+
+    const [sphereRef] = useSphere(() => ({
+        mass: 10,
+        position: position
+      }));
+    // const sphereRef = useRef()
     const materialRef = useRef()
 
     const [hovered, hover] = useState(false)
@@ -46,9 +53,9 @@ export default function TexturedSphere(props) {
         aoMap
     ] = listOfTextureLoad[count]
 
-    useFrame(() => {
-        sphereRef.current.rotation.y += 0.01
-    })
+    // useFrame(() => {
+    //     sphereRef.current.rotation.y += 0.01
+    // })
 
     const handleClick = (e) => {
         setMakeGlitch(makeGlitch => makeGlitch = true)
@@ -65,25 +72,25 @@ export default function TexturedSphere(props) {
         materialRef.current.needsUpdate = true;
     }
 
-    const handePointerOver = (e) => {
-        gsap.to(sphereRef.current.scale, {
-            x: 1.2,
-            y: 1.2,
-            z: 1.2,
-            duration: 0.5,
-            ease: "linear"
-        })
-    }
+    // const handePointerOver = (e) => {
+    //     gsap.to(sphereRef.current.scale, {
+    //         x: sphereRef.current.scale * 1.2,
+    //         y: sphereRef.current.scale * 1.2,
+    //         z: sphereRef.current.scale * 1.2,
+    //         duration: 0.5,
+    //         ease: "linear"
+    //     })
+    // }
 
-    const handePointerOut = (e) => {
-        gsap.to(sphereRef.current.scale, {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.5,
-            ease: "linear"
-        })
-    }
+    // const handePointerOut = (e) => {
+    //     gsap.to(sphereRef.current.scale, {
+    //         x: sphereRef.current.scale / 1.2,
+    //         y: sphereRef.current.scale / 1.2,
+    //         z: sphereRef.current.scale / 1.2,
+    //         duration: 0.5,
+    //         ease: "linear"
+    //     })
+    // }
 
     return (<>
         {makeGlitch && <Effects>
@@ -92,8 +99,10 @@ export default function TexturedSphere(props) {
       <mesh {...props} 
         onClick={handleClick} 
         ref={sphereRef} 
-        onPointerOver={handePointerOver}
-        onPointerOut={handePointerOut}
+        // onPointerOver={handePointerOver}
+        // onPointerOut={handePointerOut}
+        castShadow
+        receiveShadow
         >
             {/* Width and height segments for displacementMap */}
             <sphereGeometry args={[1, 100, 100]} />
