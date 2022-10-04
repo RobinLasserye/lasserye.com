@@ -1,23 +1,25 @@
 import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { extend, useFrame } from '@react-three/fiber'
-// import { Depth, LayerMaterial } from 'lamina'
 import { Sampler } from '@react-three/drei'
-// import Perlin from 'perlin.js'
+import './perlin.js'
 
-// Perlin.seed(Math.random())
+perlin.seed()
 
-export default function Forest({ children, strands = 6000, ...props }) {
+export default function Forest({ children, strands = 60000, ...props }) {
   const meshRef = useRef(null)
 
+  useEffect(() => {
+    meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeRotationX(Math.PI / 2))
+    meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, 0.5))
+  }, [])
+
   const geomRef = useRef()
-  
   return (
     <>
       {React.cloneElement(children, { ref: geomRef })}
       <instancedMesh ref={meshRef} args={[undefined, undefined, strands]} {...props}>
         <coneGeometry args={[0.05, 1.0, 2, 20, false, 0, Math.PI]} />
-        <meshBasicMaterial/>
+        <meshBasicMaterial color={'green'} />
       </instancedMesh>
       <group>
         <Sampler
