@@ -1,47 +1,54 @@
-import { extend, useLoader } from '@react-three/fiber'
+import { extend, useLoader, useFrame } from '@react-three/fiber'
 import { Effects, Sky, Plane, Environment, Cloud } from '@react-three/drei'
 import { UnrealBloomPass } from 'three-stdlib'
-import { TextureLoader } from "three/src/loaders/TextureLoader";
+
+import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
 import TexturedSphere from './TexturedSphere'
-import Forest from './Forest'
+import Terrain from './Terrain'
 import { Suspense, useRef, useEffect } from 'react'
 import * as THREE from 'three';
 
 extend({ UnrealBloomPass })
 
-const Terrain = () => {
-  const height = useLoader(TextureLoader, "mountains_displacement.png");
-  const normals = useLoader(TextureLoader, "mountains_normal.png");
-  const colors = useLoader(TextureLoader, "mountains_color.jpg");
+const positions = [
+  [0, 2, 3],
+  [-1, 5, 16],
+  [-2, 5, -10],
+  [0, 12, 3],
+  [-10, 5, 16],
+  [8, 5, -10]
+];
+
+const Surface = () => {
+
+  const [ref, api] = usePlane(() => ({
+    mass: 1,
+    position: [0, 0, 0],
+    type: "Static",
+    rotation: [-Math.PI / 2, 0, 0]
+  }));
+  
+  useFrame(({ mouse }) => {
+    api.rotation.set(-Math.PI / 2 - mouse.y * 0.02, 0 + mouse.x * 0.02, 0);
+  });
 
   return (
-      <Plane
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -3, 0]}
-        args={[64, 64, 1024, 1024]}
-      >
-        <meshStandardMaterial
-          attach="material"
-          color="white"
-          map={colors}
-          metalness={0.2}
-          normalMap={normals}
-          displacementMap={height}
-          displacementScale={10}
-        />
-      </Plane>
+    <mesh scale={200} ref={ref} receiveShadow>
+    <planeBufferGeometry />
+    <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+  </mesh>
   );
 };
 
 function Clouds() {
   return (
     <group>
-      <Cloud position={[-10, -6, -10]} speed={0.2} opacity={0.4} />
-      <Cloud position={[10, 6, -15]} speed={0.2} opacity={0.25} />
-      <Cloud position={[0, 10, 0]} speed={0.2} opacity={0.2} />
-      <Cloud position={[0, -10, 0]} speed={0.2} opacity={0.2} />
-      <Cloud position={[-10, -6, 15]} speed={0.2} opacity={0.3} />
-      <Cloud position={[10, 6, 10]} speed={0.2} opacity={0.25} />
+      <Cloud position={[-10, 5, -10]} speed={0.2} opacity={0.4} scale={2}/>
+      {/* <Cloud position={[10, 5, -15]} speed={0.2} opacity={0.25} scale={2}/> */}
+      {/* <Cloud position={[10, 5, 8]} speed={0.2} opacity={0.2} scale={2}/> */}
+      <Cloud position={[-10, 5, -8]} speed={0.2} opacity={0.2} scale={1}/>
+      <Cloud position={[0, 5, 20]} speed={0.2} opacity={0.8} scale={2}/>
+      <Cloud position={[10, 5, 10]} speed={0.2} opacity={0.25} scale={1}/>
     </group>
   )
 }
@@ -50,25 +57,37 @@ export default function MainScene() {
     
     return (
         <>
-            
-            
+            <ambientLight intensity={0.1} />
+            <directionalLight intensity={0.1} castShadow />
+            <pointLight
+              castShadow
+              intensity={3}
+              args={[0xff0000, 1, 100]}
+              position={[-1, 3, 1]}
+            />
+            <spotLight
+              castShadow
+              intensity={1}
+              args={["blue", 1, 100]}
+              position={[-1, 4, -1]}
+              penumbra={1}
+            />
 
-            <hemisphereLight intensity={0.5} color="#eaeaea" groundColor="green" />
-            {/* <directionalLight castShadow intensity={0.2} shadow-mapSize={[1024, 1024]} shadow-bias={-0.0001} position={[10, 10, -10]} /> */}
-            {/* <pointLight intensity={1} position={[7, 5, 1]} /> */}
-            {/* <Sky sunPosition={[7, 5, 1]} /> */}
-            {/* <TexturedSphere/> */}
-            <Forest>
-              <Terrain/>
-            </Forest>
+            <Physics>
+              <Surface/>
+              {positions.map((position, idx) => (
+                <TexturedSphere position={position} key={idx} />
+              ))}
+            </Physics>
+              
             
-            <Effects disableGamma>
+            {/* <Effects disableGamma>
                 <unrealBloomPass threshold={1} strength={1.0} radius={0.5} />
-            </Effects>
+            </Effects> */}
             <Environment preset={"night"}/>
             <color attach="background" args={['#202030']} />
             {/* <Clouds /> */}
-            {/* <fog attach="fog" args={['#202030', 15, 20]} /> */}
+            <fog attach="fog" args={['#202030', -5, 50]} />
             {/* <Sky /> */}
         </>
                 
