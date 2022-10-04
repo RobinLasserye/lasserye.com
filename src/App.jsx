@@ -26,8 +26,8 @@ export default function App() {
                 <MainScene canvasRef={canvas}/>
 
                 {/* <BakeShadows /> */}
-                <OrthographicCamera makeDefault far={10000} near={-100} position={[10, 4, -8]} zoom={40} fov={50}/>
-                <OrbitControls />
+                <OrthographicCamera makeDefault far={10000} near={-100} position={[10, 10, 10]} zoom={40} fov={50}/>
+                <OrbitControls enableZoom={false} enableRotate={false}/>
               </Suspense>
         </Canvas>
     </>
