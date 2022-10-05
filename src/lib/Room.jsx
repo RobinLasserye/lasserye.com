@@ -10,7 +10,6 @@ import gsap from "gsap";
 export default function Room(props) {
   const meshsRef = useRef()
   const mainRef = useRef()
-  const listOfRef = []
 
   const appearAnim = (element, delay, duration) => {
     gsap.fromTo(element.scale, 
@@ -60,62 +59,6 @@ export default function Room(props) {
           </mesh>
         </mesh>
       </group>
-      <mesh castShadow receiveShadow geometry={nodes['10105_Computer_Keyboard_v1'].geometry} material={materials['10105_Computer_Keyboard_v1']} position={[-0.98, 0.63, -0.24]} rotation={[-Math.PI, 0.85, -Math.PI]} scale={0.007} />
-      <mesh castShadow receiveShadow geometry={nodes.tree.geometry} material={materials['Material.003']} position={[-1.24, 0.31, 0.18]} scale={0.34}>
-        <mesh castShadow receiveShadow geometry={nodes.leaves.geometry} material={materials['Material.009']} position={[0.76, 0.62, 0.41]} />
-      </mesh>
-      <mesh castShadow receiveShadow geometry={nodes['10106_Computer_Mouse_v1_L3'].geometry} material={materials._10106_Computer_Mouse_v1_L310106_Computer_Mouse_v1} position={[-1.09, 0.63, -0.53]} rotation={[3.08, -0.5, 3.11]} scale={0.01} />
-      <group position={[-1.33, 1.47, -1.14]} rotation={[0.1, Math.PI / 2, 0]} scale={[0.99, 0.81, 1]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book0_1.geometry} material={materials.Book0_material} />
-        <mesh castShadow receiveShadow geometry={nodes.Book0_2.geometry} material={materials.Book0_side_material} />
-      </group>
-      <group position={[-1.33, 1.48, -1.1]} rotation={[0.11, Math.PI / 2, 0]} scale={[0.78, 1, 1]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book1_1.geometry} material={materials.Book1_material} />
-        <mesh castShadow receiveShadow geometry={nodes.Book1_2.geometry} material={materials.Book1_side_material} />
-      </group>
-      <group position={[-0.37, -0.07, 0]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book2_1.geometry} material={materials.Book2_material} />
-        <mesh castShadow receiveShadow geometry={nodes.Book2_2.geometry} material={materials.Book2_side_material} />
-      </group>
-      <group position={[-1.35, 1.14, -1.22]} rotation={[-0.21, 1.57, 0]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book0001_1.geometry} material={materials.red} />
-        <mesh castShadow receiveShadow geometry={nodes.Book0001_2.geometry} material={materials.Book2_side_material} />
-      </group>
-      <group position={[-1.33, 1.16, -1.13]} rotation={[Math.PI, 0, -Math.PI / 2]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book0002_1.geometry} material={materials.blue} />
-        <mesh castShadow receiveShadow geometry={nodes.Book0002_2.geometry} material={materials.Book1_side_material} />
-      </group>
-      <group position={[-1.35, 1.14, -1.29]} rotation={[-0.21, 1.57, 0]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book2001_1.geometry} material={materials['Book2_material.001']} />
-        <mesh castShadow receiveShadow geometry={nodes.Book2001_2.geometry} material={materials['Book2_side_material.001']} />
-      </group>
-      <group position={[-1.35, 1.14, -1.25]} rotation={[-0.21, 1.57, 0]}>
-        <mesh castShadow receiveShadow geometry={nodes.Book1001_1.geometry} material={materials.orange} />
-        <mesh castShadow receiveShadow geometry={nodes.Book1001_2.geometry} material={materials['Book1_side_material.001']} />
-      </group>
-      <group position={[-1.31, 1.18, -1.12]} rotation={[0, 0, Math.PI / 2]} scale={0.8}>
-        <mesh castShadow receiveShadow geometry={nodes.Book1002_1.geometry} material={materials['Book1_material.002']} />
-        <mesh castShadow receiveShadow geometry={nodes.Book1002_2.geometry} material={materials['Book1_side_material.002']} />
-      </group>
-      <mesh castShadow receiveShadow geometry={nodes.Window_01.geometry} material={materials.window} position={[-0.37, 1.26, -1.6]} scale={[2.85, 0.31, 0.23]} />
-      <mesh castShadow receiveShadow geometry={nodes.Window_01005.geometry} material={materials.window} position={[-0.37, 0.9, -1.6]} scale={[3.04, 0.32, 0.34]} />
-      <mesh castShadow receiveShadow geometry={nodes.Window_01004.geometry} material={materials.window} position={[-0.37, 1.31, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
-      <mesh castShadow receiveShadow geometry={nodes.Window_01003.geometry} material={materials.window} position={[-0.36, 1.65, -1.6]} scale={[3.04, 0.44, 0.34]} />
-      <mesh castShadow receiveShadow geometry={nodes.Window_01002.geometry} material={materials.window} position={[-0.63, 1.28, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
-      <mesh castShadow receiveShadow geometry={nodes.Window_01001.geometry} material={materials.window} position={[-0.1, 1.31, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
-      <group position={[0.91, 0.52, -1.52]} scale={[0.48, 0.41, 0.03]}>
-        <mesh castShadow receiveShadow geometry={nodes.Cube004.geometry} material={materials['head bed']} />
-        <mesh castShadow receiveShadow geometry={nodes.Cube004_1.geometry} material={materials['Material.004']} />
-      </group>
-      
-      <mesh castShadow receiveShadow geometry={nodes.Cabinet.geometry} material={materials.Door_material} position={[-1.34, 1.39, -1.22]} rotation={[0, Math.PI / 2, 0]} scale={[0.64, 0.77, 0.35]}>
-        <mesh castShadow receiveShadow geometry={nodes.Cabinet1_Door.geometry} material={materials.Door_material} position={[0.3, -0.35, 0.29]} rotation={[0, 0.93, 0]}>
-          <mesh castShadow receiveShadow geometry={nodes.Handle.geometry} material={materials.Handle_material} position={[-0.54, 0.58, 0.02]} rotation={[0, 0, -Math.PI / 2]} />
-        </mesh>
-        <mesh castShadow receiveShadow geometry={nodes.Countertop1.geometry} material={materials.countertop_material} position={[-0.3, 0.35, -0.3]} />
-      </mesh>
-      <mesh castShadow receiveShadow geometry={nodes.Pot.geometry} material={materials.pot} position={[-1.25, 0.2, 0.16]} scale={[1, 1.17, 1]} />
-      <mesh castShadow receiveShadow geometry={nodes.Soil.geometry} material={materials.Soil} position={[-1.26, 0.29, 0.17]} scale={1.03} />
       <mesh castShadow receiveShadow geometry={nodes.table.geometry} material={materials['Table-texture']} position={[-1.1, 0.6, -0.62]} scale={[1, 1, 1.08]}>
         <group position={[-0.24, 0.07, -0.17]} rotation={[0, -0.27, 0]} scale={[0.99, 1, 0.93]}>
           <mesh castShadow receiveShadow geometry={nodes.Cube024.geometry} material={materials.black} />
@@ -181,15 +124,76 @@ export default function Room(props) {
           <mesh castShadow receiveShadow geometry={nodes.pen001.geometry} material={materials.black} position={[0, -0.06, 0]} />
         </mesh>
       </mesh>
+      <mesh castShadow receiveShadow geometry={nodes.Cabinet.geometry} material={materials.Door_material} position={[-1.34, 1.39, -1.22]} rotation={[0, Math.PI / 2, 0]} scale={[0.64, 0.77, 0.35]}>
+        <mesh castShadow receiveShadow geometry={nodes.Cabinet1_Door.geometry} material={materials.Door_material} position={[0.3, -0.35, 0.29]} rotation={[0, 0.93, 0]}>
+          <mesh castShadow receiveShadow geometry={nodes.Handle.geometry} material={materials.Handle_material} position={[-0.54, 0.58, 0.02]} rotation={[0, 0, -Math.PI / 2]} />
+        </mesh>
+        <mesh castShadow receiveShadow geometry={nodes.Countertop1.geometry} material={materials.countertop_material} position={[-0.3, 0.35, -0.3]} />
+      </mesh>
+      <mesh castShadow receiveShadow geometry={nodes['10105_Computer_Keyboard_v1'].geometry} material={materials['10105_Computer_Keyboard_v1']} position={[-0.98, 0.63, -0.24]} rotation={[-Math.PI, 0.85, -Math.PI]} scale={0.007} />
+      <mesh castShadow receiveShadow geometry={nodes.tree.geometry} material={materials['Material.003']} position={[-1.24, 0.31, 0.18]} scale={0.34}>
+        <mesh castShadow receiveShadow geometry={nodes.leaves.geometry} material={materials['Material.009']} position={[0.76, 0.62, 0.41]} />
+      </mesh>
+      <mesh castShadow receiveShadow geometry={nodes['10106_Computer_Mouse_v1_L3'].geometry} material={materials._10106_Computer_Mouse_v1_L310106_Computer_Mouse_v1} position={[-1.09, 0.63, -0.53]} rotation={[3.08, -0.5, 3.11]} scale={0.01} />
+      <group position={[-1.33, 1.47, -1.14]} rotation={[0.1, Math.PI / 2, 0]} scale={[0.99, 0.81, 1]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book0_1.geometry} material={materials.Book0_material} />
+        <mesh castShadow receiveShadow geometry={nodes.Book0_2.geometry} material={materials.Book0_side_material} />
+      </group>
+      <group position={[-1.33, 1.48, -1.1]} rotation={[0.11, Math.PI / 2, 0]} scale={[0.78, 1, 1]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book1_1.geometry} material={materials.Book1_material} />
+        <mesh castShadow receiveShadow geometry={nodes.Book1_2.geometry} material={materials.Book1_side_material} />
+      </group>
+      <group position={[-0.37, -0.07, 0]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book2_1.geometry} material={materials.Book2_material} />
+        <mesh castShadow receiveShadow geometry={nodes.Book2_2.geometry} material={materials.Book2_side_material} />
+      </group>
+      <group position={[-1.35, 1.14, -1.22]} rotation={[-0.21, 1.57, 0]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book0001_1.geometry} material={materials.red} />
+        <mesh castShadow receiveShadow geometry={nodes.Book0001_2.geometry} material={materials.Book2_side_material} />
+      </group>
+      <group position={[-1.33, 1.16, -1.13]} rotation={[Math.PI, 0, -Math.PI / 2]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book0002_1.geometry} material={materials.blue} />
+        <mesh castShadow receiveShadow geometry={nodes.Book0002_2.geometry} material={materials.Book1_side_material} />
+      </group>
+      <group position={[-1.35, 1.14, -1.29]} rotation={[-0.21, 1.57, 0]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book2001_1.geometry} material={materials['Book2_material.001']} />
+        <mesh castShadow receiveShadow geometry={nodes.Book2001_2.geometry} material={materials['Book2_side_material.001']} />
+      </group>
+      <group position={[-1.35, 1.14, -1.25]} rotation={[-0.21, 1.57, 0]}>
+        <mesh castShadow receiveShadow geometry={nodes.Book1001_1.geometry} material={materials.orange} />
+        <mesh castShadow receiveShadow geometry={nodes.Book1001_2.geometry} material={materials['Book1_side_material.001']} />
+      </group>
+      <group position={[-1.31, 1.18, -1.12]} rotation={[0, 0, Math.PI / 2]} scale={0.8}>
+        <mesh castShadow receiveShadow geometry={nodes.Book1002_1.geometry} material={materials['Book1_material.002']} />
+        <mesh castShadow receiveShadow geometry={nodes.Book1002_2.geometry} material={materials['Book1_side_material.002']} />
+      </group>
+      <mesh castShadow receiveShadow geometry={nodes.Window_01.geometry} material={materials.window} position={[-0.37, 1.26, -1.6]} scale={[2.85, 0.31, 0.23]} />
+      <mesh castShadow receiveShadow geometry={nodes.Window_01005.geometry} material={materials.window} position={[-0.37, 0.9, -1.6]} scale={[3.04, 0.32, 0.34]} />
+      <mesh castShadow receiveShadow geometry={nodes.Window_01004.geometry} material={materials.window} position={[-0.37, 1.31, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
+      <mesh castShadow receiveShadow geometry={nodes.Window_01003.geometry} material={materials.window} position={[-0.36, 1.65, -1.6]} scale={[3.04, 0.44, 0.34]} />
+      <mesh castShadow receiveShadow geometry={nodes.Window_01002.geometry} material={materials.window} position={[-0.63, 1.28, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
+      <mesh castShadow receiveShadow geometry={nodes.Window_01001.geometry} material={materials.window} position={[-0.1, 1.31, -1.6]} rotation={[0, 0.08, 1.57]} scale={[3.84, 0.23, 0.19]} />
+      <group position={[0.91, 0.52, -1.52]} scale={[0.48, 0.41, 0.03]}>
+        <mesh castShadow receiveShadow geometry={nodes.Cube004.geometry} material={materials['head bed']} />
+        <mesh castShadow receiveShadow geometry={nodes.Cube004_1.geometry} material={materials['Material.004']} />
+      </group>
+      
+      
+      <mesh castShadow receiveShadow geometry={nodes.Pot.geometry} material={materials.pot} position={[-1.25, 0.2, 0.16]} scale={[1, 1.17, 1]} />
+      <mesh castShadow receiveShadow geometry={nodes.Soil.geometry} material={materials.Soil} position={[-1.26, 0.29, 0.17]} scale={1.03} />
+      
       <mesh castShadow receiveShadow geometry={nodes.Plane.geometry} material={materials['bed/door-material']} position={[0.88, 0.19, -0.65]} scale={[0.99, 0.92, 0.96]} />
       <mesh castShadow receiveShadow geometry={nodes.Plane001.geometry} material={materials.mattress} position={[0.89, 0.4, -0.64]} scale={[1, 0.9, 0.96]} />
       <mesh castShadow receiveShadow geometry={nodes.Blanket.geometry} material={materials['Material.005']} position={[0.89, 0.57, -0.66]} scale={[0.99, 0.94, 0.98]} />
+      <group>
       <mesh castShadow receiveShadow geometry={nodes.leg_1.geometry} material={materials.Handle_material} position={[-0.6, 0.35, -0.52]} rotation={[-0.12, -0.08, 0.33]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg_4.geometry} material={materials.Handle_material} position={[-0.6, 0.35, -0.79]} rotation={[0.1, -0.09, 0.32]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg3.geometry} material={materials.Handle_material} position={[-0.89, 0.35, -0.54]} rotation={[-0.14, -0.03, -0.12]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg2.geometry} material={nodes.leg2.material} position={[-0.89, 0.35, -0.78]} rotation={[0.1, -0.05, -0.11]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.chair_plane.geometry} material={materials.black} position={[-0.57, 0.44, -0.64]} />
 
+      </group>
+      
       <mesh castShadow receiveShadow geometry={nodes.Plane003.geometry} material={materials.pillow} position={[0.65, 0.51, -1.37]} rotation={[0.52, 0, 0]} scale={[1.83, 1.22, 1.31]} />
       <mesh castShadow receiveShadow geometry={nodes.Plane011.geometry} material={materials.pillow} position={[1.14, 0.54, -1.4]} rotation={[-2.44, 0, -Math.PI]} scale={[2.02, 1.4, 1.4]} />
       {/* <mesh castShadow receiveShadow geometry={nodes.Plane018.geometry} material={materials['Material.008']} position={[-0.38, 1.15, -1.64]} rotation={[1.57, Math.PI / 2, 0]} scale={[0.47, 0.34, 0.6]} /> */}
@@ -277,8 +281,9 @@ export default function Room(props) {
         <mesh castShadow receiveShadow geometry={nodes.Mesh003_1.geometry} material={materials.phong10} />
         <mesh castShadow receiveShadow geometry={nodes.Mesh003_2.geometry} material={materials.phong13} />
         <mesh castShadow receiveShadow geometry={nodes.Mesh003_3.geometry} material={materials.phong18} />
+        <mesh castShadow receiveShadow geometry={nodes.Ecran_Video.geometry} material={materials['Material.006']} position={[-1.22, 0.82, -0.34]} rotation={[1.61, 0.13, -1.85]} scale={[0.2, 0.02, 0.11]} />
       </group>
-      <mesh castShadow receiveShadow geometry={nodes.Ecran_Video.geometry} material={materials['Material.006']} position={[-1.22, 0.82, -0.34]} rotation={[1.61, 0.13, -1.85]} scale={[0.2, 0.02, 0.11]} />
+      
     </group>
   )
 }

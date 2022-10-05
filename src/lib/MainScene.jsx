@@ -1,28 +1,49 @@
 import { extend, useLoader, useFrame } from '@react-three/fiber'
-import { Effects, Sky, Plane, Environment, Cloud, Lightformer } from '@react-three/drei'
+import { Effects, Sky, Plane, Environment, Cloud, OrbitControls, Html, PerspectiveCamera } from '@react-three/drei'
 import { UnrealBloomPass } from 'three-stdlib'
 
 import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
 import TexturedSphere from './TexturedSphere'
 import Terrain from './Terrain'
 import Room from './Room'
-import { Suspense, useRef, useEffect } from 'react'
+import { Suspense, useRef, useEffect, useState } from 'react'
 import * as THREE from 'three';
 
-extend({ UnrealBloomPass })
 
-const positions = [
-  [0, 2, 3],
-  [-1, 5, 16],
-  [-2, 5, -10],
-  [0, 12, 3],
-  [-10, 5, 16],
-  [8, 5, -10]
-];
+
+function Marker({ children, ...props }) {
+  // This holds the local occluded state
+  const [occluded, occlude] = useState()
+  const {hide} = props
+
+  return (
+    <>
+    {!hide && <mesh position={[0, 2, 0]}>
+    <sphereGeometry args={[0.001, 1, 1]} />
+    <meshBasicMaterial color="white" />
+    <Html 
+      // 3D-transform contents
+      // transform
+      // Hide contents "behind" other meshes
+      occlude
+      // Tells us when contents are occluded (or not)
+      onOcclude={occlude}
+      // We just interpolate the visible state into css opacity and transforms
+      style={{ transition: 'all 0.2s', opacity: occluded ? 0 : 1, transform: `scale(${occluded ? 0.25 : 1})`}}
+      {...props}>
+      {children}
+      
+    </Html>
+  </mesh>}
+    </>
+    
+    
+  )
+}
 
 function GroundPlane() {
   return (
-    <mesh receiveShadow rotation={[-Math.PI/2, 0, 0]} position={[0, -0.2, 0]}>
+    <mesh receiveShadow rotation={[-Math.PI/2, 0, 0]} position={[0, -0.2, 0]} castShadow>
       <planeGeometry attach="geometry" args={[500, 500]} />
       <meshStandardMaterial attach="material" color="#E8DED1" />
     </mesh>
@@ -42,7 +63,19 @@ function Clouds() {
   )
 }
 
-export default function MainScene() {
+export default function MainScene(props) {
+    // const [xrotate, setXrotate] = useState(0)
+    // const [yrotate, setYrotate] = useState(0)
+    // const [zrotate, setZrotate] = useState(0)
+    const [hideHtml, setHideHtml] = useState(false)
+    const {testing, handleDiv} = props
+    const orbitRef = useRef()
+
+    const handlePanels = (e) => {
+      e.preventDefault()
+      setHideHtml(true)
+      handleDiv(true)
+    }
     
     return (
         <>
@@ -63,13 +96,24 @@ export default function MainScene() {
             /> */}
 
             <GroundPlane/>
-            <Room position={[1, 0, 1]}/>
-              
+            <Room position={[1, 0, 1]} />
+
+            <Marker position={[-0.2, -1, 0.5]} hide={hideHtml}>
+              <div 
+                style={{ position: 'absolute', fontSize: 20, background: "white", color: "black", letterSpacing: -0.5, left: 17.5, zIndex: 5}}
+                onClick={handlePanels}
+                >
+                  Skills
+                </div>
+            </Marker>
+
             
-            {/* <Effects disableGamma>
-                <unrealBloomPass threshold={1} strength={1.0} radius={0.5} />
-            </Effects> */}
+        
             <Environment preset={'apartment'}/>
+            <PerspectiveCamera makeDefault far={1000} near={2} position={[10, 8, 10]} zoom={5.5} fov={75}/>
+            {!testing && <OrbitControls enableZoom={false} enableRotate={false} ref={orbitRef}/>}
+            {testing && <OrbitControls ref={orbitRef}/>}
+            
             {/* <color attach="background" args={['#202030']} /> */}
             {/* <Clouds /> */}
             {/* <fog attach="fog" args={['#202030', -5, 50]} /> */}
