@@ -13,28 +13,45 @@ export default function Room(props) {
   const listOfRef = []
 
   const appearAnim = (element, delay, duration) => {
-    gsap.fromTo(element.current.scale, 
+    gsap.fromTo(element.scale, 
       {
           x: 0,
           y: 0,
           z: 0
       }, 
       {
-          x: 1,
-          y: 1,
-          z: 1,
+          x: element.scale.x,
+          y: element.scale.y,
+          z: element.scale.z,
           duration: duration || 10, 
           delay: delay
       })
   }
 
-  // useEffect(() => {
-  //   meshsRef.current.map(item => console.log(item))
-  // }, [])
+  useEffect(() => {
+    materials.floor.roughness = 0.5
+    materials.floor.metalness = 0.3
+    materials['bed/door-material'].roughness = 0.5
+    materials['bed/door-material'].metalness = 0.3
+    // meshsRef.current.map(item => console.log(item))
+    let delay = 0
+    let duration = 0.08
+    for (let i = 0; i < mainRef.current.children.length; i += 1){
+      appearAnim(mainRef.current.children[i], delay, duration)
+      delay += duration
+    }
+    
+
+  }, [])
 
   const { nodes, materials } = useGLTF('/room.glb')
   return (
     <group {...props} dispose={null} ref={mainRef}>
+      <group position={[0, -0.01, 0.1]} scale={[1.34, 1, 1.26]}>
+        <mesh castShadow receiveShadow geometry={nodes.Cube_1.geometry} material={materials.floor} />
+        <mesh castShadow receiveShadow geometry={nodes.Cube_2.geometry} material={materials.wall1} />
+        <mesh castShadow receiveShadow geometry={nodes.Cube_3.geometry} material={materials.wall2} />
+      </group>
       <group ref={meshsRef}>
       <mesh castShadow receiveShadow geometry={nodes.DoorFrame.geometry} material={materials['bed/door-material']} position={[-1.44, 0.12, 0.79]} rotation={[0, -1.57, 0]} scale={[0.8, 0.68, 0.5]}>
           <mesh castShadow receiveShadow geometry={nodes.Door.geometry} material={materials['bed/door-material']} position={[-0.42, 1.05, 0.02]} rotation={[0, 0.47, 0]} scale={[1, 1.04, 1]}>
@@ -90,7 +107,7 @@ export default function Room(props) {
         <mesh castShadow receiveShadow geometry={nodes.Cube004.geometry} material={materials['head bed']} />
         <mesh castShadow receiveShadow geometry={nodes.Cube004_1.geometry} material={materials['Material.004']} />
       </group>
-      <mesh castShadow receiveShadow geometry={nodes.Blanket.geometry} material={materials['Material.005']} position={[0.89, 0.57, -0.66]} scale={[0.99, 0.94, 0.98]} />
+      
       <mesh castShadow receiveShadow geometry={nodes.Cabinet.geometry} material={materials.Door_material} position={[-1.34, 1.39, -1.22]} rotation={[0, Math.PI / 2, 0]} scale={[0.64, 0.77, 0.35]}>
         <mesh castShadow receiveShadow geometry={nodes.Cabinet1_Door.geometry} material={materials.Door_material} position={[0.3, -0.35, 0.29]} rotation={[0, 0.93, 0]}>
           <mesh castShadow receiveShadow geometry={nodes.Handle.geometry} material={materials.Handle_material} position={[-0.54, 0.58, 0.02]} rotation={[0, 0, -Math.PI / 2]} />
@@ -164,21 +181,19 @@ export default function Room(props) {
           <mesh castShadow receiveShadow geometry={nodes.pen001.geometry} material={materials.black} position={[0, -0.06, 0]} />
         </mesh>
       </mesh>
+      <mesh castShadow receiveShadow geometry={nodes.Plane.geometry} material={materials['bed/door-material']} position={[0.88, 0.19, -0.65]} scale={[0.99, 0.92, 0.96]} />
+      <mesh castShadow receiveShadow geometry={nodes.Plane001.geometry} material={materials.mattress} position={[0.89, 0.4, -0.64]} scale={[1, 0.9, 0.96]} />
+      <mesh castShadow receiveShadow geometry={nodes.Blanket.geometry} material={materials['Material.005']} position={[0.89, 0.57, -0.66]} scale={[0.99, 0.94, 0.98]} />
       <mesh castShadow receiveShadow geometry={nodes.leg_1.geometry} material={materials.Handle_material} position={[-0.6, 0.35, -0.52]} rotation={[-0.12, -0.08, 0.33]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg_4.geometry} material={materials.Handle_material} position={[-0.6, 0.35, -0.79]} rotation={[0.1, -0.09, 0.32]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg3.geometry} material={materials.Handle_material} position={[-0.89, 0.35, -0.54]} rotation={[-0.14, -0.03, -0.12]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.leg2.geometry} material={nodes.leg2.material} position={[-0.89, 0.35, -0.78]} rotation={[0.1, -0.05, -0.11]} scale={[0.14, 2.5, 0.13]} />
       <mesh castShadow receiveShadow geometry={nodes.chair_plane.geometry} material={materials.black} position={[-0.57, 0.44, -0.64]} />
-      <mesh castShadow receiveShadow geometry={nodes.Plane.geometry} material={materials['bed/door-material']} position={[0.88, 0.19, -0.65]} scale={[0.99, 0.92, 0.96]} />
-      <mesh castShadow receiveShadow geometry={nodes.Plane001.geometry} material={materials.mattress} position={[0.89, 0.4, -0.64]} scale={[1, 0.9, 0.96]} />
+
       <mesh castShadow receiveShadow geometry={nodes.Plane003.geometry} material={materials.pillow} position={[0.65, 0.51, -1.37]} rotation={[0.52, 0, 0]} scale={[1.83, 1.22, 1.31]} />
       <mesh castShadow receiveShadow geometry={nodes.Plane011.geometry} material={materials.pillow} position={[1.14, 0.54, -1.4]} rotation={[-2.44, 0, -Math.PI]} scale={[2.02, 1.4, 1.4]} />
-      <mesh castShadow receiveShadow geometry={nodes.Plane018.geometry} material={materials['Material.008']} position={[-0.38, 1.15, -1.64]} rotation={[1.57, Math.PI / 2, 0]} scale={[0.47, 0.34, 0.6]} />
-      <group position={[0, -0.01, 0.1]} scale={[1.34, 1, 1.26]}>
-        <mesh castShadow receiveShadow geometry={nodes.Cube_1.geometry} material={materials.floor} />
-        <mesh castShadow receiveShadow geometry={nodes.Cube_2.geometry} material={materials.wall1} />
-        <mesh castShadow receiveShadow geometry={nodes.Cube_3.geometry} material={materials.wall2} />
-      </group>
+      {/* <mesh castShadow receiveShadow geometry={nodes.Plane018.geometry} material={materials['Material.008']} position={[-0.38, 1.15, -1.64]} rotation={[1.57, Math.PI / 2, 0]} scale={[0.47, 0.34, 0.6]} /> */}
+      
       <group position={[-0.95, 0.64, -0.52]} rotation={[0, -0.16, 0]} scale={1.2}>
         <mesh castShadow receiveShadow geometry={nodes.Plane011_1.geometry} material={nodes.Plane011_1.material} />
         <mesh castShadow receiveShadow geometry={nodes.Plane011_2.geometry} material={materials['whitish yellowish']} />

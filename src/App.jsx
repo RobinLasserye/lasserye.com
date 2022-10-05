@@ -1,6 +1,6 @@
 import {useRef, Suspense, useState} from "react";
 import {Canvas} from '@react-three/fiber'
-import { Effects, OrbitControls, OrthographicCamera, BakeShadows, Stats} from '@react-three/drei'
+import { Effects, OrbitControls, PerspectiveCamera, OrthographicCamera, BakeShadows, Stats} from '@react-three/drei'
 import MainScene from './lib/MainScene'
 import Loader from './lib/Loader'
 
@@ -26,7 +26,10 @@ export default function App() {
                 <MainScene canvasRef={canvas}/>
 
                 {/* <BakeShadows /> */}
-                <OrthographicCamera makeDefault far={10000} near={-100} position={[10, 10, 10]} zoom={40} fov={50}/>
+                {/* <OrthographicCamera makeDefault far={10000} near={2} position={[10, 10, 10]} zoom={130} fov={75}/> */}
+                <PerspectiveCamera makeDefault far={10000} near={2} position={[10, 8, 10]} zoom={5.5} fov={75}/>
+                {/* <PerspectiveCamera makeDefault far={10000} near={2} position={[2, 2, 0]} lookAt zoom={5.5} fov={75}/> */}
+                
                 {!testing && <OrbitControls enableZoom={false} enableRotate={false}/>}
                 {testing && <OrbitControls/>}
               </Suspense>

@@ -1,5 +1,5 @@
 import { extend, useLoader, useFrame } from '@react-three/fiber'
-import { Effects, Sky, Plane, Environment, Cloud } from '@react-three/drei'
+import { Effects, Sky, Plane, Environment, Cloud, Lightformer } from '@react-three/drei'
 import { UnrealBloomPass } from 'three-stdlib'
 
 import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
@@ -22,9 +22,9 @@ const positions = [
 
 function GroundPlane() {
   return (
-    <mesh receiveShadow rotation={[5, 0, 0]} position={[0, -1, 0]}>
-      <planeBufferGeometry attach="geometry" args={[500, 500]} />
-      <meshStandardMaterial attach="material" color="white" />
+    <mesh receiveShadow rotation={[-Math.PI/2, 0, 0]} position={[0, -0.2, 0]}>
+      <planeGeometry attach="geometry" args={[500, 500]} />
+      <meshStandardMaterial attach="material" color="#E8DED1" />
     </mesh>
   );
 }
@@ -46,11 +46,11 @@ export default function MainScene() {
     
     return (
         <>
-            {/* <ambientLight intensity={0.1} castShadow/>
-            <directionalLight intensity={1} castShadow /> */}
+            {/* <ambientLight intensity={0.1}  /> */}
+            <directionalLight intensity={0.2} color={"white"} castShadow position={[5, 10, 5]}/>
             {/* <pointLight
               castShadow
-              intensity={1}
+              intensity={8}
               args={[0x000000, 1, 100]}
               position={[5, 3, 5]}
             /> */}
@@ -63,7 +63,7 @@ export default function MainScene() {
             /> */}
 
             <GroundPlane/>
-            <Room/>
+            <Room position={[1, 0, 1]}/>
               
             
             {/* <Effects disableGamma>
@@ -73,7 +73,7 @@ export default function MainScene() {
             {/* <color attach="background" args={['#202030']} /> */}
             {/* <Clouds /> */}
             {/* <fog attach="fog" args={['#202030', -5, 50]} /> */}
-            <Sky distance={45000} sunPosition={[0, 1, 0]} inclination={0.5} azimuth={0.25} />
+            {/* <Sky distance={45000} sunPosition={[0, 1, 0]} inclination={0.5} azimuth={0.25} /> */}
         </>
                 
             
