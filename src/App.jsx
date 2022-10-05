@@ -6,7 +6,7 @@ import Loader from './lib/Loader'
 
 export default function App() {
   const canvas = useRef()
-  const testing = false
+  const testing = true
 
   return (
     <>
@@ -27,7 +27,8 @@ export default function App() {
 
                 {/* <BakeShadows /> */}
                 <OrthographicCamera makeDefault far={10000} near={-100} position={[10, 10, 10]} zoom={40} fov={50}/>
-                <OrbitControls enableZoom={false} enableRotate={false}/>
+                {!testing && <OrbitControls enableZoom={false} enableRotate={false}/>}
+                {testing && <OrbitControls/>}
               </Suspense>
         </Canvas>
     </>
