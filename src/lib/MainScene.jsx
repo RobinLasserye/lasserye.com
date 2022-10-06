@@ -67,14 +67,14 @@ export default function MainScene(props) {
     // const [xrotate, setXrotate] = useState(0)
     // const [yrotate, setYrotate] = useState(0)
     // const [zrotate, setZrotate] = useState(0)
-    const [hideHtml, setHideHtml] = useState(false)
-    const {testing, handleDiv} = props
+    
+    const {testing, handleDiv, hideHtml} = props
     const orbitRef = useRef()
 
-    const handlePanels = (e) => {
+    const handlePanels = (e, param) => {
       e.preventDefault()
-      setHideHtml(true)
-      handleDiv(true)
+      
+      handleDiv(true, param)
     }
     
     return (
@@ -99,19 +99,28 @@ export default function MainScene(props) {
             <Room position={[1, 0, 1]} />
 
             <Marker position={[-0.2, -1, 0.5]} hide={hideHtml}>
-              <div 
-                style={{ position: 'absolute', fontSize: 20, background: "white", color: "black", letterSpacing: -0.5, left: 17.5, zIndex: 5}}
-                onClick={handlePanels}
+              <button 
+                style={{ position: 'absolute', fontSize: "2vh", padding: 2, background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 1)}}
                 >
-                  Skills
-                </div>
+                  Compétences
+                </button>
+            </Marker>
+
+            <Marker position={[-0.2, -0.8, 2.4]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "3vh", padding: "0.4vw", background: "black", color: "grey", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 3)}}
+                >
+                  Contact
+                </button>
             </Marker>
 
             
         
             <Environment preset={'apartment'}/>
             <PerspectiveCamera makeDefault far={1000} near={2} position={[10, 8, 10]} zoom={5.5} fov={75}/>
-            {!testing && <OrbitControls enableZoom={false} enableRotate={false} ref={orbitRef}/>}
+            {!testing && <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} enablePan={false} ref={orbitRef}/>}
             {testing && <OrbitControls ref={orbitRef}/>}
             
             {/* <color attach="background" args={['#202030']} /> */}

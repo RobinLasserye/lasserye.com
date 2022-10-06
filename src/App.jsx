@@ -1,6 +1,6 @@
 import {useRef, Suspense, useState} from "react";
 import {Canvas} from '@react-three/fiber'
-import { Effects, OrbitControls, PerspectiveCamera, OrthographicCamera, BakeShadows, Stats} from '@react-three/drei'
+import { Effects, OrbitControls, PerspectiveCamera, OrthographicCamera, BakeShadows, Stats, PresentationControls} from '@react-three/drei'
 import MainScene from './lib/MainScene'
 import Loader from './lib/Loader'
 
@@ -8,32 +8,74 @@ export default function App() {
   const canvas = useRef()
   const testing = true
   const [panelVisibility, setPanelVisibility] = useState(false)
+  const [hideHtml, setHideHtml] = useState(false)
+  const [panel, setPanel] = useState(1)
+  const mainPanel = useRef()
 
-  const handleDiv = (vibility) => {
+  const handleDiv = (vibility, panel_id) => {
+    setHideHtml(vibility)
     setPanelVisibility(vibility)
+    setPanel(panel_id)
   }
 
-  const swicthPanel = (param) => {
+  const switchPanel = (param) => {
     switch(param) {
-      case 'foo':
-         return 'bar';
-     default:
-       return 'foo';
+      case 1:
+          return(
+            <div style={{display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
+            <h1 style={{color: "black", margin: "1vw"}}>Compétences</h1>
+          </div>
+          );
+      case 2:
+          return(
+          <div>
+            <h1 style={{color: "black", margin: "1vw"}}>Pourquoi la 3D ?</h1>
+          </div>
+          );
+      case 3:
+        const timer = setTimeout(() => {
+          const panelDiv = document.getElementsByClassName("radiodiv")
+          panelDiv[0].style.background = "rgb(100, 100, 100)"
+          return (clearTimeout(timer))
+        }, 1)
+        
+          return(
+            <div style={{display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
+              <h1 style={{color: "whitesmoke", margin: "1vw"}}>Contact</h1>
+              
+              <div>
+                <button style={{background: "transparent", padding: 0}}>
+                  <img src={"/malt.svg"} style={{width: "20vh"}}/>
+                </button>
+              </div>
+              <div>
+                <button style={{background: "transparent", padding: 0}}>
+                  <img src={"/linkedin.svg"} style={{width: "20vh"}}/>
+                </button>
+              </div>
+              <div>
+                <button style={{background: "transparent", padding: 0}}>
+                  <img src={"/mail.svg"} style={{width: "20vh"}}/>
+                </button>
+              </div>
+              
+            </div>
+          );
+      default:
+       return null;
      }
   }
 
   return (
     <>
       {panelVisibility && 
-      <div style={{position: "absolute", background: "black", opacity: 0.7, width: "100vw", height: "100vh", margin: 0, right: "0", top: "0", bottom: "0", left: "0", zIndex: 10}}>
-        
-      </div>}
+      <div style={{position: "absolute", background: "black", opacity: 0.7, width: "100vw", height: "100vh", margin: 0, right: "0", top: "0", bottom: "0", left: "0", zIndex: 10}}
+      onClick={() => {handleDiv(false)}}
+      />}
       {panelVisibility &&
-        // <div style={{display: "flex", margin: 0, alignContent: "center", alignItems: "center", zIndex: 11}}>
-        //   Test
-        // </div>
-        <div style={{position: "absolute", background: "white", opacity: 1, width: "40vw", height: "80vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
-          <button style={{borderRadius: "100%", padding: "1%", margin: 0}}>X</button>
+        <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: "70vw", height: "80vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
+          <button style={{position: "absolute", left: "69vw", top: "-3vh", borderRadius: "50%", margin: 0, padding: "3px 8px"}} onClick={() => {handleDiv(false)}}>x</button>
+          {switchPanel(panel)}
         </div>
       }
       <Canvas id="myThreeJsCanvas" ref={canvas} 
@@ -48,9 +90,20 @@ export default function App() {
               {testing && <gridHelper args={[10, 10]}/>}
 
               <Suspense fallback={<Loader/>}>
+                <PresentationControls
+                global={false} // Spin globally or by dragging the model
+                cursor={false} // Whether to toggle cursor style on drag
+                snap={false} // Snap-back to center (can also be a spring config)
+                speed={1} // Speed factor
+                zoom={1} // Zoom factor when half the polar-max is reached
+                rotation={[0, 0, 0]} // Default rotation
+                polar={!panelVisibility ? [-Math.PI / 48, Math.PI / 48] : [0, 0, 0]} // Vertical limits
+                azimuth={!panelVisibility ? [-Math.PI / 48, Math.PI / 48] : [0, 0, 0]} // Horizontal limits
+                config={{ mass: 1, tension: 170, friction: 26 }} // Spring config
+                >
 
-                <MainScene canvasRef={canvas} testing={testing} handleDiv={handleDiv}/>
-
+                  <MainScene canvasRef={canvas} testing={testing} handleDiv={handleDiv} hideHtml={hideHtml}/>
+                </PresentationControls>
                 {/* <OrthographicCamera makeDefault far={10000} near={2} position={[10, 10, 10]} zoom={130} fov={75}/> */}
                 
               </Suspense>

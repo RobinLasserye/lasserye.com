@@ -32,6 +32,7 @@ export default function Room(props) {
     materials.floor.metalness = 0.3
     materials['bed/door-material'].roughness = 0.5
     materials['bed/door-material'].metalness = 0.3
+    console.log(nodes.Ecran_Video)
     // meshsRef.current.map(item => console.log(item))
     let delay = 0
     let duration = 0.08
