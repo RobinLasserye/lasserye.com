@@ -8,11 +8,11 @@ import Panels from './lib/Panels'
 const isMobile = () => {
   if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
     // true for mobile device
-    console.log(true)
+    // console.log(true)
     return true
   }else{
     // false for not mobile device
-    console.log(false)
+    // console.log(false)
     return false
   }
 }
@@ -40,7 +40,7 @@ export default function App() {
       onClick={() => {handleDiv(false)}}
       />}
       {panelVisibility &&
-        <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: "70vw", height: "80vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
+        <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: "70vw", height: "85vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
           <button style={{position: "absolute", left: "69vw", top: "-3vh", borderRadius: "50%", margin: 0, padding: "3px 8px"}} onClick={() => {handleDiv(false)}}>x</button>
           <Panels param={panel} isMobile={isMobile}/>
         </div>
