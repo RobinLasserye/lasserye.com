@@ -3,67 +3,34 @@ import {Canvas} from '@react-three/fiber'
 import { Effects, OrbitControls, PerspectiveCamera, OrthographicCamera, BakeShadows, Stats, PresentationControls} from '@react-three/drei'
 import MainScene from './lib/MainScene'
 import Loader from './lib/Loader'
+import Panels from './lib/Panels'
+
+const isMobile = () => {
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    // true for mobile device
+    console.log(true)
+    return true
+  }else{
+    // false for not mobile device
+    console.log(false)
+    return false
+  }
+}
 
 export default function App() {
   const canvas = useRef()
-  const testing = true
+  const testing = false
   const [panelVisibility, setPanelVisibility] = useState(false)
   const [hideHtml, setHideHtml] = useState(false)
   const [panel, setPanel] = useState(1)
+  const ismobile = isMobile()
+  
   const mainPanel = useRef()
 
   const handleDiv = (vibility, panel_id) => {
     setHideHtml(vibility)
     setPanelVisibility(vibility)
     setPanel(panel_id)
-  }
-
-  const switchPanel = (param) => {
-    switch(param) {
-      case 1:
-          return(
-            <div style={{display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
-            <h1 style={{color: "black", margin: "1vw"}}>Compétences</h1>
-          </div>
-          );
-      case 2:
-          return(
-          <div>
-            <h1 style={{color: "black", margin: "1vw"}}>Pourquoi la 3D ?</h1>
-          </div>
-          );
-      case 3:
-        const timer = setTimeout(() => {
-          const panelDiv = document.getElementsByClassName("radiodiv")
-          panelDiv[0].style.background = "rgb(100, 100, 100)"
-          return (clearTimeout(timer))
-        }, 1)
-        
-          return(
-            <div style={{display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
-              <h1 style={{color: "whitesmoke", margin: "1vw"}}>Contact</h1>
-              
-              <div>
-                <button style={{background: "transparent", padding: 0}}>
-                  <img src={"/malt.svg"} style={{width: "20vh"}}/>
-                </button>
-              </div>
-              <div>
-                <button style={{background: "transparent", padding: 0}}>
-                  <img src={"/linkedin.svg"} style={{width: "20vh"}}/>
-                </button>
-              </div>
-              <div>
-                <button style={{background: "transparent", padding: 0}}>
-                  <img src={"/mail.svg"} style={{width: "20vh"}}/>
-                </button>
-              </div>
-              
-            </div>
-          );
-      default:
-       return null;
-     }
   }
 
   return (
@@ -75,7 +42,7 @@ export default function App() {
       {panelVisibility &&
         <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: "70vw", height: "80vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
           <button style={{position: "absolute", left: "69vw", top: "-3vh", borderRadius: "50%", margin: 0, padding: "3px 8px"}} onClick={() => {handleDiv(false)}}>x</button>
-          {switchPanel(panel)}
+          <Panels param={panel} isMobile={isMobile}/>
         </div>
       }
       <Canvas id="myThreeJsCanvas" ref={canvas} 
@@ -102,7 +69,13 @@ export default function App() {
                 config={{ mass: 1, tension: 170, friction: 26 }} // Spring config
                 >
 
-                  <MainScene canvasRef={canvas} testing={testing} handleDiv={handleDiv} hideHtml={hideHtml}/>
+                  <MainScene 
+                  canvasRef={canvas} 
+                  testing={testing} 
+                  handleDiv={handleDiv} 
+                  hideHtml={hideHtml}
+                  isMobile={ismobile}
+                  />
                 </PresentationControls>
                 {/* <OrthographicCamera makeDefault far={10000} near={2} position={[10, 10, 10]} zoom={130} fov={75}/> */}
                 

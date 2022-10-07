@@ -64,11 +64,7 @@ function Clouds() {
 }
 
 export default function MainScene(props) {
-    // const [xrotate, setXrotate] = useState(0)
-    // const [yrotate, setYrotate] = useState(0)
-    // const [zrotate, setZrotate] = useState(0)
-    
-    const {testing, handleDiv, hideHtml} = props
+    const {testing, handleDiv, hideHtml, isMobile} = props
     const orbitRef = useRef()
 
     const handlePanels = (e, param) => {
@@ -119,7 +115,7 @@ export default function MainScene(props) {
             
         
             <Environment preset={'apartment'}/>
-            <PerspectiveCamera makeDefault far={1000} near={2} position={[10, 8, 10]} zoom={5.5} fov={75}/>
+            <PerspectiveCamera makeDefault far={1000} near={2} position={isMobile ? [10, 8, 10] : [10, 8, 10]} zoom={isMobile ? 2 : 5.5} fov={75}/>
             {!testing && <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} enablePan={false} ref={orbitRef}/>}
             {testing && <OrbitControls ref={orbitRef}/>}
             
