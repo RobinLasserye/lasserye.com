@@ -1,9 +1,16 @@
 import {useState, useEffect} from "react";
 import gsap from 'gsap'
+// import { ScrollTrigger } from "gsap/ScrollTrigger"
+// import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 
+// gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+
+// API local des compétences sous la forme [icon, texte]
 const skillData = {
     "technique" : [
         ["/three.svg", "Three JS"],
+        ["/integration.svg", "Intégration 3D"],
+        ["/simulation.svg", "Simulation physique Web"],
         ["/react.svg", "React JS"],
         ["/user.svg", "UI / UX"],
         ["/js.svg", "HTML / Javascript / CSS"],
@@ -14,11 +21,33 @@ const skillData = {
     "transverse": [
         ["/gestion.svg", "Gestion de projet"],
         ["/quality.svg", "Qualitative assurance"],
-        ["/gestion.svg", "Sens du relationnel"],
-        ["/gestion.svg", "Prospection"],
+        ["/deal.svg", "Sens du relationnel"],
+        ["/client.svg", "Prospection"],
+        ["/brain.svg", "Analyse des besoins"],
     ]
 }
 
+function Project (props) {
+    const {titre, children, iamge, id} = props
+
+    return(<div className={id} style={{padding: 20, marginTop: 10, paddingTop: 5, margin: "2 5 2 5", borderRadius: 8, background: "lightgrey"}}>
+        <h2 style={{color: "black", textJustify: "center", fontSize: "2.2vw", lineHeight: "3.2vw"}}>{titre}</h2>
+        <p style={{color: "black", fontSize: "1.2vw", lineHeight: "1.6vw"}}>{children}</p>
+    </div>
+    )
+}
+
+function TextPanel (props) {
+    const {titre, children, id} = props
+
+    return(<div className={id} style={{padding: 20, marginTop: 10, paddingTop: 5, margin: "2 5 2 5", borderRadius: 8, background: "grey"}}>
+        <h2 style={{color: "black", textJustify: "center", fontSize: "2.2vw", lineHeight: "3.2vw"}}>{titre}</h2>
+        <p style={{color: "black", fontSize: "1.2vw", lineHeight: "1.6vw"}}>{children}</p>
+    </div>
+    )
+}
+
+// Fonction de mise en forme des compétences
 function Skill (props) {
     const {img, children, id} = props
 
@@ -30,43 +59,69 @@ function Skill (props) {
 }
 
 export default function Panels(props) {
+    // Props et variables de gestions
     const { param, isMobile } = props
     const [stopDisplayCopying, setStopDisplayCopying] = useState(true)
     const [skillOverflow, setSkillOverflow] = useState(false)
     let i = 2
 
-    const technicAnimation = () => {gsap.fromTo(".technique", 
-    {
-        scale: 0, 
-        opacity: 0
-    },
-    {
-        duration: 2,
-        scale: 1, 
-        opacity: 1, 
-        delay: 0.5, 
-        stagger: 0.2,
-        ease: "elastic", 
-        force3D: true
-    })}
-    const transverseAnimation = () => {gsap.fromTo(".transverse", 
-    {
-        x: 150, 
-        opacity: 0
-    },
-    {
-        duration: 2,
-        x: 0, 
-        opacity: 1, 
-        delay: 0.5, 
-        stagger: 0.2,
-        ease: "elastic", 
-        force3D: true
-    })}
+    // Animation des compétences techniques
+    const technicAnimation = (id, decalage, easeChoice) => {
+        try {
+            gsap.fromTo(id, 
+                {
+                    scale: 0, 
+                    opacity: 0
+                },
+                {
+                    duration: 2,
+                    scale: 1, 
+                    x: 0 + decalage, 
+                    opacity: 1, 
+                    delay: 0.5, 
+                    stagger: 0.2,
+                    ease: easeChoice || "elastic", 
+                    force3D: true
+                })
+            } catch {
+                return null
+            }
+        
+    }
 
+    // Animation des compétences transverses
+    const transverseAnimation = (id, sens, decalage, easeChoice) => {
+        try {
+            gsap.fromTo(id, 
+                {
+                    x: sens * 150, 
+                    opacity: 0
+                },
+                {
+                    duration: 2,
+                    x: 0 + decalage, 
+                    opacity: 1, 
+                    delay: 0.5, 
+                    stagger: 0.2,
+                    ease: easeChoice || "elastic", 
+                    force3D: true
+                })
+            } catch {
+                return null
+            }
+        
+    }
+
+    // UseEffect de gestion de l'activation de l'overflow en fonction de la taille de l'écran pour l'onglet compétence
     useEffect(() => {
-        technicAnimation()
-        transverseAnimation()
+        technicAnimation(".technique")
+        transverseAnimation(".transverse", 1, 0)
+        transverseAnimation(".presentation", -1, 0)
+        technicAnimation(".img_robin", "10%")
+        technicAnimation(".text_propos")
+        technicAnimation(".text_propos")
+        transverseAnimation(".front", -1, 0, "power4")
+        transverseAnimation(".comp_and_lang", 1, 0, "power4")
 
         const activateOverflow = setTimeout(() => {
             setSkillOverflow(true)
@@ -78,6 +133,7 @@ export default function Panels(props) {
         
     }, []);
 
+    // Fonction de copy clipboard email
     const CopyClip = (e) => {
         // Copy the email in the clipboard
         navigator.clipboard.writeText("robin.lasserye.pro@gmail.com");
@@ -91,10 +147,12 @@ export default function Panels(props) {
         }, 1000)
     }
 
+    // Les panneaux générés
     switch (param) {
+        // Onglet Compétence
         case 1:
             return (
-                <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center" }}>
+                <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
                     <h1 style={{ color: "black", margin: "1vw 0 0 0", fontSize: "min(8vw, 36px)" }}>Compétences</h1>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridAutoRows: "minmax(8vh, auto)",
                     overflowY: skillOverflow && "scroll", overflowX: "none", width: "80%"
@@ -116,10 +174,57 @@ export default function Panels(props) {
                 
                 </div>
             );
+        // Onglet à Propos 
         case 2:
             return (
-                <div>
-                    <h1 style={{ color: "black", margin: "1vw" }}>Pourquoi la 3D ?</h1>
+                <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center", overflowY: "scroll", background: "darkgrey" }}>
+                    <h1 style={{ color: "black", marginTop: "1vw" }}>A propos</h1>
+                    <div style={{ display: "grid", gridTemplateColumns: "40% 60%", width: "95%"
+                    }}>
+                        <TextPanel id={"presentation"}>
+                            <p style={{textAlign: "center", marginTop: "50%"}}>Je m’appelle Robin Lasserye, diplômé en tant qu’ingénieur en informatique, microélectronique et automatique, je suis aujourd’hui Développeur Web Freelance orienté Front-End.</p>
+                        </TextPanel>
+                        <img className={"img_robin"} style={{ borderRadius: "50%", width: "90%", marginRight: "5%", transform: "translateX(50%)"}} src={"/robin-3.jpg"}/>
+                        
+                    </div>
+                    
+                    <div style={{ display: "grid", gridTemplateColumns: "40% 60%", gridAutoRows: "minmax(8vh, auto)", gap: 10, width: "95%", marginTop: 10
+                    }}>
+                        <TextPanel titre={"Pourquoi le Front-End ?"} id="front">
+                            Photographe et passionné par l’art numérique, j’ai une réelle prédisposition pour créer des sites pour mes clients avec une signature graphique unique. A l’heure où de nombreux sites sont générés selon des templates, collaborer avec mes clients sur des projets innovants et stimulants est pour moi une belle source d’enrichissement.
+                        </TextPanel>
+                        <TextPanel titre={"Mes compétences et mes langages"} id={"comp_and_lang"}>
+                            J’ai cœur à faire évoluer mes compétences vers un modèle me permettant la plus grande polyvalence possible afin de concevoir l’interface la plus sur-mesure possible pour mes clients.
+                            Ainsi je me suis orienté vers React.js notamment pour l’utilisation très agile de ces hooks, couplé à d’autres dépendances très utiles pour la réalisation Front-End que sont Boostrap, TailWind, le CSS avec une préférence pour Material-UI.
+                            <br/>
+                            <br/>
+                            
+                            L’épicentre de ma passion vers lequel convergent mes compétences se situe dans la conception d’interface 3D web.
+                            Pour cela, j’utilise essentiellement Three.js couplé à Blender pour générer mes propres modèles 3D sans dépendre de bibliothèques externes.
+                        </TextPanel>
+                    </div>
+                    <div style={{width: "97%"}} onEnter>
+                        <TextPanel titre={"Pourquoi la 3D ?"} id={"text_propos"}>
+                            Aujourd’hui la technologie permet d’obtenir bien plus aisément un site web avec une boutique, un blog ou bien un site vitrine rapidement et à moindre coût. Néanmoins, pour cela, le site devra d’abord suivre un template, un pattern avant de subir des modifications pour lui donner une réelle identité graphique.
+                            <br/>
+                            <br/>
+                            Créer cette identité est pour moi particulièrement important et la 3D se situe bien au-delà de la simple personnalisation. Il est bien rare qu’un template permet de générer des interfaces 3D dans un site web, alors que celle-ci exalte l’œil du visiteur.
+                            Interactive, unique et tout public, la 3D permet de différencier aisément un site haut de gamme d’un autre moins développé. Dans un monde qui se numérise, avec l’avènement du jeu vidéo, de la 3D cinématographique et avec les avancées de la Réalité Virtuelle, prenez une avance considérable pour ce qui est de la visibilité de votre site web. L’ajout de 3D dans la présentation de vos produits ou de vos services peut parfois suffire à faire monter en gamme.
+                            <br/>
+                            <br/>
+                            Votre public est jeune ? Adressez-vous à eux avec une interface qu’ils connaissent sans pour autant qu’ils aient pu l’expérimenter auparavant sur un site web.
+                            Votre public est plus âgé ? Concevez une interface simplicité et modernité pour attirer leur œil sur ce qui vous intéresse vraiment.
+                            Votre site généra alors confiance et intérêt quel que soit le profil du visiteur. Celui-ci n’est pas intéressé ? Il montrera votre site non pas pour vos produits, mais pour votre design, design portant le nouveau regard sur vos produits, la boucle est bouclée. Vous venez de générer une nouvelle conversion.
+                        </TextPanel>
+                    </div>
+                    <div style={{width: "97%"}} >
+                        <TextPanel titre={"Une modélisation sur-mesure "} id={"text_propos"}>
+                                En fonction de son interactivité, de sa demande de performance ou du niveau de détail demandé, tout est possible quand les modèles sont réalisés sur mesures.
+                                Du rendu complet et réaliste d’un produit que vous souhaitez mettre en valeur à l’animation plurielle pour faciliter l’interactivité de votre site, tout est possible.
+                        </TextPanel>
+                    </div>  
+                        
+                    
                 </div>
             );
         case 3:
@@ -156,10 +261,17 @@ export default function Panels(props) {
                             transition: 'all 0.3s', opacity: stopDisplayCopying ? 0 : 1, zIndex: 20, 
                             transform: "translateX(110%) translateY(-15vh)" 
                         }}> Email copié !</p>
-                        {/* position: "absolute", display: "box", top: `${window.innerHeight/posY + 50}%`, left: `${window.innerWidth/posX + 50}%` , */}
+                        
 
                     </div>
-                    ²
+                    
+                </div>
+            );
+
+        case 4 :
+            return (
+                <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center" }}>
+                    <h1 style={{ color: "black", margin: "1vw" }}>Projets</h1>
                 </div>
             );
         default:

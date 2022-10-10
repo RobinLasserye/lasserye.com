@@ -1,9 +1,10 @@
-import {useRef, Suspense, useState} from "react";
+import {useRef, Suspense, useState, useEffect} from "react";
 import {Canvas} from '@react-three/fiber'
 import { Effects, OrbitControls, PerspectiveCamera, OrthographicCamera, BakeShadows, Stats, PresentationControls} from '@react-three/drei'
 import MainScene from './lib/MainScene'
 import Loader from './lib/Loader'
 import Panels from './lib/Panels'
+import gsap from "gsap";
 
 const isMobile = () => {
   if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -19,7 +20,7 @@ const isMobile = () => {
 
 export default function App() {
   const canvas = useRef()
-  const testing = false
+  const testing = true
   const [panelVisibility, setPanelVisibility] = useState(false)
   const [hideHtml, setHideHtml] = useState(false)
   const [panel, setPanel] = useState(1)
@@ -27,10 +28,31 @@ export default function App() {
   
   const mainPanel = useRef()
 
-  const handleDiv = (vibility, panel_id) => {
+  // const zooming = (cameraRef) => {
+  //   console.log(cameraRef)
+  //   gsap.to(cameraRef.current, {
+  //     zoom : cameraRef.current.zoom * 1.2,
+  //     duration: 1
+  //   })
+  // }
+  // const unzooming = (cameraRef) => {
+  //   console.log(cameraRef)
+  //   gsap.to(cameraRef.current, {
+  //     zoom : cameraRef.current.zoom / 1.2,
+  //     duration: 1
+  //   })
+  // }
+
+  const handleDiv = (vibility, panel_id, cameraRef) => {
     setHideHtml(vibility)
     setPanelVisibility(vibility)
     setPanel(panel_id)
+    console.log(cameraRef)
+    // if (!vibility) {
+    //   zooming(cameraRef)
+    // } else {
+    //   unzooming(cameraRef)
+    // }
   }
 
   return (

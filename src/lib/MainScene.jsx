@@ -66,11 +66,12 @@ function Clouds() {
 export default function MainScene(props) {
     const {testing, handleDiv, hideHtml, isMobile} = props
     const orbitRef = useRef()
+    const cameraRef = useRef()
 
     const handlePanels = (e, param) => {
       e.preventDefault()
       
-      handleDiv(true, param)
+      handleDiv(true, param, cameraRef)
     }
     
     return (
@@ -91,9 +92,11 @@ export default function MainScene(props) {
               penumbra={1}
             /> */}
 
+            {/* Scene principal : sol et pièce */}
             <GroundPlane/>
             <Room position={[1, 0, 1]} />
 
+            {/* Différent marqueurs générant les panels */}
             <Marker position={[-0.2, -1, 0.5]} hide={hideHtml}>
               <button 
                 style={{ position: 'absolute', fontSize: "2vh", padding: 2, background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
@@ -102,20 +105,36 @@ export default function MainScene(props) {
                   Compétences
                 </button>
             </Marker>
-
+            <Marker position={[2, -1, 0.5]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "2.5vh", padding: 2, width: "5vw",background: "darkgrey", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 2)}}
+                >
+                  A propos
+                </button>
+            </Marker>
             <Marker position={[-0.2, -0.8, 2.4]} hide={hideHtml}>
               <button 
                 style={{ position: 'absolute', fontSize: "3vh", padding: "0.4vw", background: "black", color: "grey", letterSpacing: -0.5, zIndex: 5}}
                 onClick={(e) => {handlePanels(e, 3)}}
+                // onHover={(currentTarget) => {currentTarget.style.background = "grey"}}
                 >
                   Contact
+                </button>
+            </Marker>
+            <Marker position={[-0.3, -0.3, 0.9]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "2vh", padding: 2, background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 4)}}
+                >
+                  Projets
                 </button>
             </Marker>
 
             
         
             <Environment preset={'apartment'}/>
-            <PerspectiveCamera makeDefault far={1000} near={2} position={isMobile ? [10, 8, 10] : [10, 8, 10]} zoom={isMobile ? 2 : 5.5} fov={75}/>
+            <PerspectiveCamera ref={cameraRef} makeDefault far={1000} near={2} position={isMobile ? [10, 8, 10] : [10, 8, 10]} zoom={isMobile ? 2 : 5.5} fov={75}/>
             {!testing && <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} enablePan={false} ref={orbitRef}/>}
             {testing && <OrbitControls ref={orbitRef}/>}
             
