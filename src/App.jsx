@@ -47,7 +47,6 @@ export default function App() {
     setHideHtml(vibility)
     setPanelVisibility(vibility)
     setPanel(panel_id)
-    console.log(cameraRef)
     // if (!vibility) {
     //   zooming(cameraRef)
     // } else {
