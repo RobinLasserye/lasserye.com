@@ -180,7 +180,7 @@ export default function Panels(props) {
                         clearTimeout(activateOverflow)
                     )
                 }, 
-                window.innerHeight * 4)
+                window.innerHeight * 3)
             }, [])
 
             return (
