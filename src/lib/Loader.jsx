@@ -11,6 +11,7 @@ const Loader = () => {
             center
             >
             <div>
+                <p style={{color: "whitesmoke", textAlign: "center"}}>Site en développement : accès à la version simplifiée</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
                 <circle id="arc1" className="circle" cx="150" cy="150" r="120" opacity=".89" fill="none" stroke="#632b26" strokeWidth="12" strokeLinecap="square" strokeOpacity=".99213" paintOrder="fill markers stroke"/>
                 <circle id="arc2" className="circle" cx="150" cy="150" r="120" opacity=".49" fill="none" stroke="#632b26" strokeWidth="8" strokeLinecap="square" strokeOpacity=".99213" paintOrder="fill markers stroke"/>

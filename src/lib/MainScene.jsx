@@ -1,44 +1,54 @@
 import { extend, useLoader, useFrame } from '@react-three/fiber'
-import { Effects, Sky, Plane, Environment, Cloud } from '@react-three/drei'
+import { Effects, Sky, Plane, Environment, Cloud, OrbitControls, Html, PerspectiveCamera } from '@react-three/drei'
 import { UnrealBloomPass } from 'three-stdlib'
 
 import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
 import TexturedSphere from './TexturedSphere'
 import Terrain from './Terrain'
-import { Suspense, useRef, useEffect } from 'react'
+import Room from './Room'
+import { Suspense, useRef, useEffect, useState } from 'react'
 import * as THREE from 'three';
 
-extend({ UnrealBloomPass })
 
-const positions = [
-  [0, 2, 3],
-  [-1, 5, 16],
-  [-2, 5, -10],
-  [0, 12, 3],
-  [-10, 5, 16],
-  [8, 5, -10]
-];
 
-const Surface = () => {
-
-  const [ref, api] = usePlane(() => ({
-    mass: 1,
-    position: [0, 0, 0],
-    type: "Static",
-    rotation: [-Math.PI / 2, 0, 0]
-  }));
-  
-  useFrame(({ mouse }) => {
-    api.rotation.set(-Math.PI / 2 - mouse.y * 0.02, 0 + mouse.x * 0.02, 0);
-  });
+function Marker({ children, ...props }) {
+  // This holds the local occluded state
+  const [occluded, occlude] = useState()
+  const {hide} = props
 
   return (
-    <mesh scale={200} ref={ref} receiveShadow>
-    <planeBufferGeometry />
-    <meshStandardMaterial color="white" side={THREE.DoubleSide} />
-  </mesh>
+    <>
+    {!hide && <mesh position={[0, 2, 0]}>
+    <sphereGeometry args={[0.001, 1, 1]} />
+    <meshBasicMaterial color="white" />
+    <Html 
+      // 3D-transform contents
+      // transform
+      // Hide contents "behind" other meshes
+      occlude
+      // Tells us when contents are occluded (or not)
+      onOcclude={occlude}
+      // We just interpolate the visible state into css opacity and transforms
+      style={{ transition: 'all 0.2s', opacity: occluded ? 0 : 1, transform: `scale(${occluded ? 0.25 : 1})`}}
+      {...props}>
+      {children}
+      
+    </Html>
+  </mesh>}
+    </>
+    
+    
+  )
+}
+
+function GroundPlane() {
+  return (
+    <mesh receiveShadow rotation={[-Math.PI/2, 0, 0]} position={[0, -0.2, 0]} castShadow>
+      <planeGeometry attach="geometry" args={[500, 500]} />
+      <meshStandardMaterial attach="material" color="#E8DED1" />
+    </mesh>
   );
-};
+}
 
 function Clouds() {
   return (
@@ -53,42 +63,94 @@ function Clouds() {
   )
 }
 
-export default function MainScene() {
+export default function MainScene(props) {
+    const {testing, handleDiv, hideHtml, isMobile} = props
+    const orbitRef = useRef()
+    const cameraRef = useRef()
+
+    const handlePanels = (e, param) => {
+      e.preventDefault()
+      
+      handleDiv(true, param, cameraRef)
+    }
+
+    //   useFrame((state) => {
+    //     if (!!orbitRef.current) {
+    //         const { x, y } = state.mouse;
+    //         orbitRef.current.setAzimuthalAngle(Math.PI/4 + -x * Math.PI/12);
+    //         orbitRef.current.setPolarAngle(Math.PI / 4 + (y + 1) * Math.PI/12);
+    //         orbitRef.current.update();
+    //     }
+    // })
     
     return (
         <>
-            <ambientLight intensity={0.1} />
-            <directionalLight intensity={0.1} castShadow />
-            <pointLight
+            {/* <ambientLight intensity={0.1}  /> */}
+            <directionalLight intensity={0.2} color={"white"} castShadow position={[5, 10, 5]}/>
+            {/* <pointLight
               castShadow
-              intensity={3}
-              args={[0xff0000, 1, 100]}
-              position={[-1, 3, 1]}
-            />
-            <spotLight
+              intensity={8}
+              args={[0x000000, 1, 100]}
+              position={[5, 3, 5]}
+            /> */}
+            {/* <spotLight
               castShadow
-              intensity={1}
-              args={["blue", 1, 100]}
-              position={[-1, 4, -1]}
+              intensity={2}
+              args={["white", 1, 100]}
+              position={[4, 2, 2]}
               penumbra={1}
-            />
+            /> */}
 
-            <Physics>
-              <Surface/>
-              {positions.map((position, idx) => (
-                <TexturedSphere position={position} key={idx} />
-              ))}
-            </Physics>
-              
+            {/* Scene principal : sol et pièce */}
+            <GroundPlane/>
+            <Room position={[1, 0, 1]} />
+
+            {/* Différent marqueurs générant les panels */}
+            <Marker position={[-0.2, -1, 0.5]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "2vh", padding: 2, background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 1)}}
+                >
+                  Compétences
+                </button>
+            </Marker>
+            <Marker position={[2, -1, 0.5]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "2.5vh", padding: 2,background: "darkgrey", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 2)}}
+                >
+                  A propos
+                </button>
+            </Marker>
+            <Marker position={[-0.2, -0.8, 2.4]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "3vh", padding: "0.4vw", background: "black", color: "grey", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 3)}}
+                // onHover={(currentTarget) => {currentTarget.style.background = "grey"}}
+                >
+                  Contact
+                </button>
+            </Marker>
+            <Marker position={[-0.3, -0.3, 0.9]} hide={hideHtml}>
+              <button 
+                style={{ position: 'absolute', fontSize: "2vh", padding: 2, background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                onClick={(e) => {handlePanels(e, 4)}}
+                >
+                  Projets
+                </button>
+            </Marker>
+
             
-            {/* <Effects disableGamma>
-                <unrealBloomPass threshold={1} strength={1.0} radius={0.5} />
-            </Effects> */}
-            <Environment preset={"night"}/>
-            <color attach="background" args={['#202030']} />
+        
+            <Environment preset={'apartment'}/>
+            <PerspectiveCamera ref={cameraRef} makeDefault far={1000} near={2} position={isMobile ? [10, 8, 10] : [10, 8, 10]} zoom={isMobile ? 2 : 5.5} fov={75}/>
+            {!testing && <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} enablePan={false} ref={orbitRef}/>}
+            {testing && <OrbitControls ref={orbitRef}/>}
+            
+            {/* <color attach="background" args={['#202030']} /> */}
             {/* <Clouds /> */}
-            <fog attach="fog" args={['#202030', -5, 50]} />
-            {/* <Sky /> */}
+            {/* <fog attach="fog" args={['#202030', -5, 50]} /> */}
+            {/* <Sky distance={45000} sunPosition={[0, 1, 0]} inclination={0.5} azimuth={0.25} /> */}
         </>
                 
             
