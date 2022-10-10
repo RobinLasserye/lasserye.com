@@ -20,7 +20,7 @@ const isMobile = () => {
 
 export default function App() {
   const canvas = useRef()
-  const testing = true
+  const testing = false
   const [panelVisibility, setPanelVisibility] = useState(false)
   const [hideHtml, setHideHtml] = useState(false)
   const [panel, setPanel] = useState(1)
@@ -28,30 +28,10 @@ export default function App() {
   
   const mainPanel = useRef()
 
-  // const zooming = (cameraRef) => {
-  //   console.log(cameraRef)
-  //   gsap.to(cameraRef.current, {
-  //     zoom : cameraRef.current.zoom * 1.2,
-  //     duration: 1
-  //   })
-  // }
-  // const unzooming = (cameraRef) => {
-  //   console.log(cameraRef)
-  //   gsap.to(cameraRef.current, {
-  //     zoom : cameraRef.current.zoom / 1.2,
-  //     duration: 1
-  //   })
-  // }
-
   const handleDiv = (vibility, panel_id, cameraRef) => {
     setHideHtml(vibility)
     setPanelVisibility(vibility)
     setPanel(panel_id)
-    // if (!vibility) {
-    //   zooming(cameraRef)
-    // } else {
-    //   unzooming(cameraRef)
-    // }
   }
 
   return (

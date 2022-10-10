@@ -73,6 +73,15 @@ export default function MainScene(props) {
       
       handleDiv(true, param, cameraRef)
     }
+
+    //   useFrame((state) => {
+    //     if (!!orbitRef.current) {
+    //         const { x, y } = state.mouse;
+    //         orbitRef.current.setAzimuthalAngle(Math.PI/4 + -x * Math.PI/12);
+    //         orbitRef.current.setPolarAngle(Math.PI / 4 + (y + 1) * Math.PI/12);
+    //         orbitRef.current.update();
+    //     }
+    // })
     
     return (
         <>
