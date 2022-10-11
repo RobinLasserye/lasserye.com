@@ -22,8 +22,7 @@ const Loader = () => {
                 <circle id="arc7" className="circle" cx="150" cy="150" r="90" opacity=".89" fill="none" stroke="#632b26" strokeWidth="8" strokeLinecap="square" strokeOpacity=".99213" paintOrder="fill markers stroke"/>
                 <circle id="arc8" className="circle" cx="150" cy="150" r="80" opacity=".79" fill="#4DD0E1" fillOpacity="0" stroke="#632b26" strokeWidth="8" strokeLinecap="square" strokeOpacity=".99213" paintOrder="fill markers stroke"/>
                 </svg>
-                <p style={{color: "whitesmoke", textAlign: "center"}}>Pour une meilleure expérience</p>
-                <p style={{color: "whitesmoke",  textAlign: "center"}}>Nous vous conseillons un visionnage depuis un ordinateur</p>
+                <p style={{color: "whitesmoke",  textAlign: "center"}}>Support mobile non implémenté, nous vous conseillons un visionnage depuis un ordinateur</p>
             </div>
         </Html>
         

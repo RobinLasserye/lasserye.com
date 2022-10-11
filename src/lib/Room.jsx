@@ -33,6 +33,12 @@ export default function Room(props) {
     materials.floor.metalness = 0.3
     materials['bed/door-material'].roughness = 0.5
     materials['bed/door-material'].metalness = 0.3
+
+    const timer = setTimeout(() => {
+      wallRef.scale = [1.34, 1, 1.26]
+      meshsRef.scale = 1
+      return(clearTimeout(timer))
+    }, 1000)
     
     let delay = 0.5
     let duration = 0.08
