@@ -10,6 +10,7 @@ import gsap from "gsap";
 export default function Room(props) {
   const meshsRef = useRef()
   const mainRef = useRef()
+  const wallRef = useRef()
 
   const appearAnim = (element, delay, duration) => {
     gsap.fromTo(element.scale, 
@@ -33,7 +34,7 @@ export default function Room(props) {
     materials['bed/door-material'].roughness = 0.5
     materials['bed/door-material'].metalness = 0.3
     
-    let delay = 0
+    let delay = 0.5
     let duration = 0.08
     for (let i = 0; i < mainRef.current.children.length; i += 1){
       appearAnim(mainRef.current.children[i], delay, duration)
@@ -46,7 +47,7 @@ export default function Room(props) {
   const { nodes, materials } = useGLTF('/room.glb')
   return (
     <group {...props} dispose={null} ref={mainRef}>
-      <group position={[0, -0.01, 0.1]} scale={[1.34, 1, 1.26]}>
+      <group position={[0, -0.01, 0.1]} scale={[1.34, 1, 1.26]} ref={wallRef}>
         <mesh castShadow receiveShadow geometry={nodes.Cube_1.geometry} material={materials.floor} />
         <mesh castShadow receiveShadow geometry={nodes.Cube_2.geometry} material={materials.wall1} />
         <mesh castShadow receiveShadow geometry={nodes.Cube_3.geometry} material={materials.wall2} />

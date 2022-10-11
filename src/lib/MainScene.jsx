@@ -116,7 +116,7 @@ export default function MainScene(props) {
             </Marker>
             <Marker position={[2, -1, 0.5]} hide={hideHtml}>
               <button 
-                style={{ position: 'absolute', fontSize: "2.5vh", padding: 2,background: "darkgrey", color: "black", letterSpacing: -0.5, zIndex: 5}}
+                style={{ position: 'absolute', fontSize: "2.5vh", padding: 2,background: "white", color: "black", letterSpacing: -0.5, zIndex: 5}}
                 onClick={(e) => {handlePanels(e, 2)}}
                 >
                   A propos
