@@ -228,7 +228,7 @@ export default function Panels(props) {
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
                     <h1 style={{ color: "black", margin: "1vwz 0 0 0", fontSize: "min(8vw, 36px)" }}>Compétences</h1>
                     <div style={{ display: "grid", gridTemplateColumns: "50% 50%", gridAutoRows: "minmax(8vh, auto)",
-                    overflowY: skillOverflow && "scroll", width: isMobile ? "95%" : "80%"
+                    overflowY: isMobile ? "hidden" : skillOverflow && "scroll", overflowX: "hidden",width: isMobile ? "95%" : "80%"
                     }}>
                         <h2 style={{gridColum: 1, gridRow: 1, margin: isMobile ? "10 0 10 0" : "min(5vw, 5vh)",textAlign: "center", color: "darkgrey", fontSize: isMobile ? 20 : 30}}>
                             Techniques
@@ -371,7 +371,7 @@ export default function Panels(props) {
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center", background: "grey" }}>
                     <h1 style={{ color: "black", margin: "1vw" }}>Projets</h1>
                     <hr style={{width: "90%"}}/>
-                    <div style={{ display: "grid", gridTemplateColumns: "100%", width: "95%", overflowY: "scroll"
+                    <div style={{ display: "grid", gridTemplateColumns: "100%", width: "95%", overflowY: "scroll", overflowX: "hidden"
                     }}> 
                     {projectData.map((item, key) => {
                         return <Project key={key} isMobile={isMobile} keyforanim={key} id={"projet"} 
