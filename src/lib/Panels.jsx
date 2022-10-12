@@ -88,14 +88,26 @@ const skillData = {
 }
 
 const projectData = [
-    ["/site_vitrine.jpg", "Développement de site vitrine 3D animé", "Conception A-Z du site vitrine lasserye.com comprenant intégration 3D, génération de modèles sous Blender avec texturing. Conception d'animation sous GSAP, mise en page responsive et gestion de projet sous git."],
-    ["/siclem.jpg", "Développement Web Front-End pour Siclem", "Missions de développement front-end diverses en tant que membre du groupe Siclem."],
-    ["/ikos.jpg", "Conception d'un simulateur de traffic ferroviaire", "Conception et développement sous Python d'un simulateur de traffic ferroviaire dans le cadre de validation haut-niveau pour l'agence Ikos Consulting."],
-    ["/instant_web.png", " E-Commerce", "Mise en place d'un environnement de développement web E-commerce alliant Sylius et React JS sous Gatsby, avec automatisation du déploiement web."],
+    ["/site_vitrine.jpg", "Développement de site vitrine 3D animé", "Conception A-Z du site vitrine lasserye.com comprenant intégration 3D, génération de modèles sous Blender avec texturing. Conception d'animation sous GSAP, mise en page responsive et gestion de projet sous git.",
+    [0, 1, 3, 4, 5, 6],
+    [0, 3]
+    ],
+    ["/siclem.jpg", "Développement Web Front-End pour Siclem", "Missions de développement front-end diverses en tant que membre du groupe Siclem.",
+    [0, 1, 3, 4, 5, 6],
+    [0, 1, 2, 3]
+    ],
+    ["/ikos.jpg", "Conception d'un simulateur de traffic ferroviaire", "Conception et développement sous Python d'un simulateur de traffic ferroviaire dans le cadre de validation haut-niveau pour l'agence Ikos Consulting.",
+    [6, 7],
+    [1, 2, 3]
+    ],
+    ["/instant_web.png", " E-Commerce", "Mise en place d'un environnement de développement web E-commerce alliant Sylius et React JS sous Gatsby, avec automatisation du déploiement web.",
+    [3, 4, 5, 6],
+    [0, 1, 2, 4]
+    ],
 ]
 
 function Project (props) {
-    const {titre, children, image, keyforanim, id} = props
+    const {titre, children, image, keyforanim, id, isMobile, technicSkills, transverseSkills} = props
 
     useEffect(() => {
         if (keyforanim % 2 == 0) {
@@ -106,12 +118,43 @@ function Project (props) {
     }, [])
     
 
-    return(<div className={id} style={{display: "flex", flexDirection: "column", padding: 20, paddingTop: 20, margin: 10, borderRadius: 8, background: "lightgrey", opacity: 0}}>
-        <h2 style={{color: "#555555", textAlign: "center", fontSize: "2.2vw", lineHeight: "2.5vw"}}>{titre}</h2>
-        <img style={{width: "100%", borderRadius: 20}} src={image}/>
-        
-        <p style={{color: "black", fontSize: "1.2vw", lineHeight: "1.6vw", textAlign: "justify", background: "whitesmoke", borderRadius: 8, padding: 10}}>{children}</p>
+    return(
+        <div className={id} style={{padding: "10 2 5 2", margin: 10, borderRadius: 8, background: "lightgrey", opacity: 0}}>
+            <h2 style={{color: "#555555", textAlign: "center", fontSize: "2.2vw", lineHeight: "2.5vw"}}>{titre}</h2>
+
+            <div style={{display: "grid", gridTemplateColumns: "50% 50%", padding: "10 5 10 5", margin: 10, borderRadius: 8, background: "lightgrey"}}>
+            
+                <div>
+                    <p style={{color: "black", fontSize: isMobile ? "40%" : "1.2vw", lineHeight: isMobile ? "110%" :  "1.6vw", textAlign: "justify", background: "whitesmoke", borderRadius: 8, padding: "5%"}}>{children}</p>
+                    
+                    <div style={{ display: "grid", gridTemplateColumns: "50% 50%", background: "whitesmoke", borderRadius: 8, paddingRight: "5%", paddingBottom: "5%"}}>
+                        <div style={{ display: "flex", flexDirection: "column",height: "100%"}}>
+                            {technicSkills.map((item, key) => {
+                                return(<div key={key} style={{display: "flex", flexDirection: "row",margin: "5% 0 0 0", padding: 0, zIndex: 25, width: "90%", marginLeft: "10%"}}>
+                                    <img src={skillData["technique"][item][0]} style={{width: "25%", textJustify: "center"}}/>
+                                    <p style={{fontSize: isMobile ? "40%" : "1.2vw", lineHeight: isMobile ? "110%" :  "1.6vw", color: "black", marginLeft: "10%"}} >{skillData["technique"][item][1]}</p>
+                                </div>)
+                                
+                            })}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column",height: "100%"}}>
+                        {transverseSkills.map((item, key) => {
+                                return (<div key={key} style={{display: "flex", flexDirection: "row",margin: "5% 0 0 0", padding: 0, zIndex: 25, width: "90%", marginLeft: "10%"}}>
+                                    <img src={skillData["transverse"][item][0]} style={{width: "25%", textJustify: "center"}}/>
+                                    <p style={{fontSize: isMobile ? "40%" : "1.2vw", lineHeight: isMobile ? "110%" :  "1.6vw", color: "black", marginLeft: "10%"}} >{skillData["transverse"][item][1]}</p>
+                                </div>)
+                                })}
+                            </div>
+                    </div>
+                </div>
+
+                <div style={{marginLeft: "10%", marginTop: "5%"}}>
+                    <img style={{width: "90%", borderRadius: 10}} src={image}/>
+                </div>
+            
+        </div>
     </div>
+   
     )
 }
 
@@ -119,8 +162,6 @@ function TextPanel (props) {
     const {titre, children, id} = props
 
     return(<div className={id} style={{padding: 20, marginTop: 10, paddingTop: 5, margin: "2 4 2 5", borderRadius: 8, background: "grey"}}>
-        {/* <h2 style={{color: "black", textJustify: "center", fontSize: "2.2vw", lineHeight: "3.2vw"}}>{titre}</h2>
-        <p style={{color: "black", fontSize: "1.2vw", lineHeight: "1.6vw"}}>{children}</p> */}
         {titre && <h2 style={{color: "black", textJustify: "center"}}>{titre}</h2>}
         <div style={{color: "black", textAlign: "justify"}}>{children}</div>
     </div>
@@ -134,7 +175,7 @@ function Skill (props) {
     return(<div
     className={id} style={{display: "flex", flexDirection: "row",margin: isMobile ? 0 :"1vw 0 0 0", padding: 0, zIndex: 25, width: isMobile ? "90%" : "120%"}}>
         <img src={img} style={{width: "40px", textJustify: "center"}}/>
-        <p style={{color: "black", fontSize: isMobile ? 10 : 14, textAlign: "center", textJustify: "center", marginLeft: "10%", lineHeight: 1, width: "100%"}}>{children}</p>
+        <p style={{color: "black", fontSize: isMobile ? 10 : 14, textAlign: "center", textJustify: "center", marginLeft: "10%", lineHeight: 1}}>{children}</p>
     </div>)
 }
 
@@ -169,9 +210,9 @@ export default function Panels(props) {
             useEffect(() => {
                 // Animation panel compétences
                 // Animation compétences techniques
-                technicAnimation(".technique", isMobile ? 10 : "30%")
+                technicAnimation(".technique", isMobile ? 10 : "20%")
                 // Animation compétences Transverses 
-                transverseAnimation(".transverse", 1, isMobile ? 10 :"30%")   
+                transverseAnimation(".transverse", 1, isMobile ? 10 :"20%")   
 
                 // Gestion de l'activation de l'overflow
                 const activateOverflow = setTimeout(() => {
@@ -187,7 +228,7 @@ export default function Panels(props) {
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center"}}>
                     <h1 style={{ color: "black", margin: "1vwz 0 0 0", fontSize: "min(8vw, 36px)" }}>Compétences</h1>
                     <div style={{ display: "grid", gridTemplateColumns: "50% 50%", gridAutoRows: "minmax(8vh, auto)",
-                    overflowY: skillOverflow && "scroll", overflowX: "none", width: isMobile ? "95%" : "80%"
+                    overflowY: skillOverflow && "scroll", width: isMobile ? "95%" : "80%"
                     }}>
                         <h2 style={{gridColum: 1, gridRow: 1, margin: isMobile ? "10 0 10 0" : "min(5vw, 5vh)",textAlign: "center", color: "darkgrey", fontSize: isMobile ? 20 : 30}}>
                             Techniques
@@ -330,10 +371,15 @@ export default function Panels(props) {
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", alignItems: "center", background: "grey" }}>
                     <h1 style={{ color: "black", margin: "1vw" }}>Projets</h1>
                     <hr style={{width: "90%"}}/>
-                    <div style={{ display: "grid", gridTemplateColumns: isMobile ? "100%" : "50% 50%", width: "95%", overflowY: "scroll"
+                    <div style={{ display: "grid", gridTemplateColumns: "100%", width: "95%", overflowY: "scroll"
                     }}> 
                     {projectData.map((item, key) => {
-                        return <Project key={key} keyforanim={key} id={"projet"} image={item[0]} titre={item[1]}>{item[2]}</Project>
+                        return <Project key={key} isMobile={isMobile} keyforanim={key} id={"projet"} 
+                        image={item[0]} 
+                        titre={item[1]}
+                        technicSkills={item[3]}
+                        transverseSkills={item[4]}
+                        >{item[2]}</Project>
                     })}
                     </div>
                 
