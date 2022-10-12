@@ -24,7 +24,17 @@ export default function App() {
   const [panelVisibility, setPanelVisibility] = useState(false)
   const [hideHtml, setHideHtml] = useState(false)
   const [panel, setPanel] = useState(1)
-  const ismobile = isMobile()
+  let isMobile = null
+
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    // true for mobile device
+    // console.log(true)
+    isMobile = true
+  }else{
+    // false for not mobile device
+    // console.log(false)
+    isMobile = false
+  }
   
   const mainPanel = useRef()
 
@@ -41,8 +51,8 @@ export default function App() {
       onClick={() => {handleDiv(false)}}
       />}
       {panelVisibility &&
-        <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: "70vw", height: "85vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
-          <button style={{position: "absolute", left: "69vw", top: "-3vh", borderRadius: "50%", margin: 0, padding: "3px 8px"}} onClick={() => {handleDiv(false)}}>x</button>
+        <div className="radiodiv" style={{position: "absolute", background: "white", opacity: 1, width: isMobile ? "90vw" : "70vw", height: "85vh", borderRadius: "1vw", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 15}}>
+          <button style={{position: "absolute", left: isMobile ? "87vw" : "69vw", top: "-3vh", borderRadius: "50%", margin: 0, padding: "3px 8px"}} onClick={() => {handleDiv(false)}}>x</button>
           <Panels param={panel} isMobile={isMobile}/>
         </div>
       }
@@ -75,7 +85,7 @@ export default function App() {
                   testing={testing} 
                   handleDiv={handleDiv} 
                   hideHtml={hideHtml}
-                  isMobile={ismobile}
+                  isMobile={isMobile}
                   />
                 </PresentationControls>
                 {/* <OrthographicCamera makeDefault far={10000} near={2} position={[10, 10, 10]} zoom={130} fov={75}/> */}
